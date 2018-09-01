@@ -1,33 +1,33 @@
 #include <iostream>
 #include <fstream>
-#include <sstream>
-#include <string>
-#include "graph.h"
 
 using namespace std;
 
-int main() {
+int readGraph(string FileLocation) {
     ifstream GraphFile;
-    GraphFile.open("graph.txt");
-    
-    string fileLine;
-    
-    getline(GraphFile, fileLine);
-    istringstream iss(fileLine);
+    GraphFile.open(FileLocation);
+
+    // Lê a primeira linha do arquivo com o número de vértices
     int num_vertex;
-    iss >> num_vertex;
-    cout << num_vertex << endl;
+    GraphFile >> num_vertex;
+    // PLACEHOLDER lógica de num de vertices
 
-    while (getline(GraphFile, fileLine)) {
-        istringstream iss(fileLine);
-        int a, b;
-        iss >> a >> b;  
-        //if (!(iss >> a >> b)) { break; } // error
-
-        cout << a << " " << b << endl;
-        
+    // Lê as linhas subsequentes no formato a, b para adicionar arestas ao grafo
+    int a, b;
+    while (GraphFile >> a >> b) {
+        // PLACEHOLDER lógica de adicionar aresta
     }
 
     GraphFile.close();
-    return 0;
+}
+
+int readNumVertices (string FileLocation) {
+    ifstream GraphFile;
+    GraphFile.open(FileLocation);
+
+    // Lê a primeira linha do arquivo com o número de vértices
+    int num_vertex;
+    GraphFile >> num_vertex;
+
+    return num_vertex;
 }

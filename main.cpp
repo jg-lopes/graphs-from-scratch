@@ -1,5 +1,4 @@
-#include "./classes/graph.cpp"
-
+#include "./classes/adjlist.cpp"
 #include "./classes/matrix.cpp"
 
 /* 
@@ -11,8 +10,12 @@
         1.1 - Interfacear isso com a estrutura
     2. Armazena as informações na classe Grafo onde será feito a organização em estrutura de dados
         2.1 - Matriz - DONE
-        2.2 - AdjList - NOT DONE
+        2.2 - AdjList - DONE
+    
     3. Execute os algoritmos pedidos
+        3.1 BFS e DFS
+        3.2 Testar conexo
+        3.3 Grau mínimo, médio etc.
 */
 
 /*
@@ -30,6 +33,7 @@
 // }
 
 int main() {
-    Matrix graph("graph.txt");
-    //graph.printMatrix();
-}  
+    Matrix graph("./graphs/dblp.txt");
+    //AdjList graph("dblp.txt");
+    //graph.print();
+} 
