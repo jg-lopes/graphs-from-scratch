@@ -1,5 +1,3 @@
-#include "graph.h"
-
 class Matrix: public Graph {
     public:
         Matrix(string FileLocation);

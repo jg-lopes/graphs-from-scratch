@@ -1,6 +1,8 @@
 #include "matrix.h"
 
 Matrix::Matrix(string FileLocation){
+    GraphName = FileLocation;
+
     ifstream GraphFile;
     GraphFile.open(FileLocation);
 
@@ -52,21 +54,18 @@ void Matrix::BFS(int root){
     // Índice = Número do Vértice
     // Valor = Vértice Pai
     // Exceções: Valor 0 = Raiz; Valor -1 = Não descoberto
-    //vector < int > father (num_vertices, -1);
+    vector < int > father (num_vertices, -1);
 
     // Vetor de níveis do vector
     // Valor -1 = Não descoberto
-    //vector < int > level (10, -1);
+    vector < int > level (num_vertices, -1);
 
     queue < int > fifo;
 
-
-    // Corrigindo para fazer início em 0
     discovered[root] = 1;
-    //father[root] = 0;
-    //level[root] = 0;
-
-    int vertices_percorridos = 1;
+    // Está com base 0, vai ser corrigido quando for base[1]
+    father[root] = -1;
+    level[root] = 0;
 
     fifo.push(root);
 
@@ -84,11 +83,17 @@ void Matrix::BFS(int root){
                 
                 if (discovered[neighbor] == 0){
                     discovered[neighbor] = 1;
+                    father[neighbor] = vertex;
+                    level[neighbor] = level[vertex] + 1;
+
                     fifo.push(neighbor);
                 }
             }
         }
     }
+
+    outputSpanningTree(&father[0], &level[0]);
+
 }
 
 void Matrix::DFS(int root) {
@@ -96,8 +101,13 @@ void Matrix::DFS(int root) {
     root -= 1;
     
     vector < int > discovered (num_vertices, 0);
+    vector < int > father (num_vertices, -2);
+    vector < int > level (num_vertices, -1);
 
     stack < int > lifo;
+
+    father[root] = -1;
+    level[root] = 0;
 
     lifo.push(root);
     
@@ -111,9 +121,19 @@ void Matrix::DFS(int root) {
             
             for (int i = 0; i < num_vertices; i++){
                 if (matrix[vertex][i] == 1){
+                    if (father[i] == -2){
+                        father[i] = vertex;
+                    }
+                    if (level[i] == -1) {
+
+                        level[i] = level[vertex] + 1;
+                    }
                     lifo.push(i);
                 }
             } 
         }
     }
+
+    outputSpanningTree(&father[0], &level[0]);
+
 }

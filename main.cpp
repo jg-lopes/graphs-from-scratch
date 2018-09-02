@@ -1,3 +1,6 @@
+#include "./classes/graph.cpp"
+
+#include "./classes/matrix.cpp"
 #include "./classes/adjlist.cpp"
 
 /* 
@@ -17,23 +20,7 @@
         3.3 Grau mínimo, médio etc.
 */
 
-/*
-    1. Estruturas de dados em C funcionam (vector, stack, etc.)
-    2. OOP em C funciona
-*/
-
-// void createGraph(string FileLocation, int type, Matrix* graph, AdjList* graph2) {
-//     switch (type) {
-//         case 1:
-//             Matrix graph(string FileLocation);
-//         case 2:
-//             //AdjList graph(string FileLocation);
-//     }
-// }
-
 int main() {
-    AdjList graph("./graphs/live_journal.txt");
-    //graph.print();
-    //AdjList graph("dblp.txt");
-    graph.DFS(1);
+    AdjList graph("./graphs/tuturuu.txt");
+    graph.DFS(5);
 } 

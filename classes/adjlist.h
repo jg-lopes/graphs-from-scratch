@@ -1,5 +1,3 @@
-#include "graph.h"
-
 class AdjList: private Graph {
     public:
         AdjList(string FileLocation);

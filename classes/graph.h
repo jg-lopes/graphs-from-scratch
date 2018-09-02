@@ -10,9 +10,9 @@ using namespace std;
 
 class Graph {
     public:
-        void printNumVertices();
+        void outputSpanningTree(int* father, int* level);
     protected:
         int num_vertices;
         int num_edges;
-        string GraphLocation;
+        string GraphName;
 };

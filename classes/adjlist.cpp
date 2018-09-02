@@ -1,6 +1,8 @@
 #include "adjlist.h"
 
 AdjList::AdjList(string FileLocation){
+    GraphName = FileLocation;
+
     ifstream GraphFile;
     GraphFile.open(FileLocation);
 
@@ -46,10 +48,14 @@ void AdjList::BFS(int root) {
     root -= 1;
 
     vector <int> discovered (num_vertices, 0);
+    vector <int> father (num_vertices, -1);
+    vector <int> level (num_vertices, -1);
 
     queue <int> fifo;
 
     discovered[root] = 1;
+    father[root] = -1;
+    level[root] = 0;
 
     fifo.push(root);
 
@@ -63,10 +69,15 @@ void AdjList::BFS(int root) {
 
             if (discovered[neighbor] == 0) {
                 discovered[neighbor] = 1;
+                father[neighbor] = vertex;
+                level[neighbor] = level[vertex] + 1;
+
                 fifo.push(neighbor);
             }
         }        
     }
+
+    outputSpanningTree(&father[0], &level[0]);
 
 }
 
@@ -76,8 +87,14 @@ void AdjList::DFS(int root) {
     root -= 1;
 
     vector < int > discovered (num_vertices, 0);
+    vector < int > father (num_vertices, -2);
+    vector < int > level (num_vertices, -1);
+
 
     stack < int > lifo;
+
+    father[root] = -1;
+    level[root] = 0;
 
     lifo.push(root);
 
@@ -90,7 +107,13 @@ void AdjList::DFS(int root) {
             discovered[vertex] = 1;          
 
             for (list<int>::iterator it = adjlist[vertex].begin(); it != adjlist[vertex].end(); ++it){
-                    
+                    if (father[*it] == -2){
+                        father[*it] = vertex;
+                    }
+                    if (level[*it] == -1) {
+
+                        level[*it] = level[vertex] + 1;
+                    }
                     lifo.push(*it);
 
             }
@@ -98,9 +121,6 @@ void AdjList::DFS(int root) {
         }
     }
 
-    int num_discovered = 0;
-    for (int i = 0; i < num_vertices; i++){
-        num_discovered += discovered[i];
-    }
-    cout << num_discovered << endl;
+    outputSpanningTree(&father[0], &level[0]);
+
 }
