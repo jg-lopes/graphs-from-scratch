@@ -35,5 +35,5 @@ int main() {
     Matrix graph("./graphs/as_graph.txt");
     //graph.print();
     //AdjList graph("dblp.txt");
-    graph.BFS(1);
+    graph.DFS(1);
 } 

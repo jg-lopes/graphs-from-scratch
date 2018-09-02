@@ -85,10 +85,35 @@ void Matrix::BFS(int root){
                 if (discovered[neighbor] == 0){
                     discovered[neighbor] = 1;
                     fifo.push(neighbor);
-                    vertices_percorridos++;
                 }
             }
         }
     }
-    cout << vertices_percorridos << endl;
+}
+
+void Matrix::DFS(int root) {
+    //Correção
+    root -= 1;
+    
+    vector < int > discovered (num_vertices, 0);
+
+    stack < int > lifo;
+
+    lifo.push(root);
+    
+    while (!lifo.empty()) {
+        int vertex = lifo.top();
+
+        lifo.pop();
+
+        if (discovered[vertex] == 0) {
+            discovered[vertex] = 1;
+            
+            for (int i = 0; i < num_vertices; i++){
+                if (matrix[vertex][i] == 1){
+                    lifo.push(i);
+                }
+            } 
+        }
+    }
 }
