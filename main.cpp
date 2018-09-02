@@ -1,4 +1,4 @@
-#include "./classes/matrix.cpp"
+#include "./classes/adjlist.cpp"
 
 /* 
     TRABALHO DE GRAFOS
@@ -32,7 +32,7 @@
 // }
 
 int main() {
-    Matrix graph("./graphs/as_graph.txt");
+    AdjList graph("./graphs/live_journal.txt");
     //graph.print();
     //AdjList graph("dblp.txt");
     graph.DFS(1);

@@ -102,8 +102,8 @@ void Matrix::DFS(int root) {
     lifo.push(root);
     
     while (!lifo.empty()) {
+        
         int vertex = lifo.top();
-
         lifo.pop();
 
         if (discovered[vertex] == 0) {
