@@ -20,7 +20,13 @@
         3.3 Grau mínimo, médio etc.
 */
 
+
 int main() {
-    AdjList graph("./graphs/tuturuu.txt");
-    graph.DFS(5);
+    AdjList graph("./graphs/live_journal.txt");
+    //graph.DFS(5);
+    //vector <int> teste {1,4,2,5,6,8,1,32,1,7654,0};
+    vector<float> edge_info = graph.edgeInfo();
+    for (int i = 0; i < 4; i++) {
+        cout << edge_info[i] << endl;
+    }
 } 

@@ -32,6 +32,57 @@ void Matrix::addEdge(int from, int to, int num_vertices){
     }
 }
 
+
+int Matrix::vertexDegree(int vertex) {
+    int total = 0;
+    for (int i = 0; i < matrix.size(); i++) {
+        total += matrix[vertex][i];
+    }
+    return total; 
+}
+ 
+vector<float> Matrix::edgeInfo() { 
+    // Retorna min, máx, média e mediana em um vector respectivamente
+
+    vector < int > degrees (num_vertices, -1);
+
+    int sum_degrees = 0;
+
+    for (int i = 0; i < num_vertices; i++) {
+        degrees[i] = vertexDegree(i);
+        sum_degrees += vertexDegree(i);
+    }
+
+    // VectorMinMax é uma função auxiliar definida em graph.cpp
+    vector<int> min_max = VectorMinMax(degrees);
+
+
+    int min = min_max[0];
+    int max = min_max[1];
+    float mean = (float) sum_degrees / (float) num_vertices;
+
+    // Inicializa cálculo da mediana
+    float median = 0;
+    
+
+    while (degrees.size() > 2) {
+        degrees.erase(degrees.begin() + min_max[2]);
+        degrees.erase(degrees.begin() + min_max[3]);
+        min_max = VectorMinMax(degrees);
+    }
+
+    
+    if (degrees.size() == 2) {
+        median = (degrees[0] + degrees[1])/2;
+    } else {
+        median = degrees[0];
+    }
+
+    vector <float> answer {(float) min, (float) max, mean, median};
+
+    return answer;
+}
+
 void Matrix::print(){
     for (int i = 0; i < matrix.size(); i++){
         for (int j = 0; j < matrix[i].size(); j++){

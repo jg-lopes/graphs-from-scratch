@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <stack>
+#include <algorithm>
 
 using namespace std;
 

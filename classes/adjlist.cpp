@@ -30,6 +30,65 @@ void AdjList::addEdge(int from, int to, int num_vertices){
     }
 }
 
+int AdjList::vertexDegree(int vertex) {
+    int total = 0;
+    for (list<int>::iterator it = adjlist[vertex].begin(); it != adjlist[vertex].end(); ++it) {
+        total += 1;
+    }
+    // Correção para cálculo de duas arestas
+    return total; 
+}
+
+vector<float> AdjList::edgeInfo() { 
+    // Retorna min, máx, média e mediana em um vector respectivamente
+
+    vector < int > degrees (num_vertices, -1);
+
+    int sum_degrees = 0;
+
+    for (int i = 0; i < num_vertices; i++) {
+        degrees[i] = vertexDegree(i);
+        sum_degrees += vertexDegree(i);
+    }
+
+    // VectorMinMax é uma função auxiliar definida em graph.cpp
+    vector<int> min_max = VectorMinMax(degrees);
+
+
+    int min = min_max[0];
+    int max = min_max[1];
+    float mean = (float) sum_degrees / (float) num_vertices;
+
+    // Inicializa cálculo da mediana
+    float median = 0;
+    
+    sort(degrees.begin(), degrees.end());
+
+    int pivot = degrees.size()/2;
+    if (degrees.size() % 2 == 0) {
+        median = (degrees[pivot] + degrees[pivot-1]) / 2;
+    } else {
+        median = degrees[pivot];
+    }
+
+    // while (degrees.size() > 2) {
+    //     degrees.erase(degrees.begin() + min_max[2]);
+    //     degrees.erase(degrees.begin() + min_max[3]);
+    //     min_max = VectorMinMax(degrees);
+    // }
+
+    
+    // if (degrees.size() == 2) {
+    //     median = (degrees[0] + degrees[1])/2;
+    // } else {
+    //     median = degrees[0];
+    // }
+
+    vector <float> answer {(float) min, (float) max, mean, median};
+
+    return answer;
+}
+
 void AdjList::print(){
 
     for (int i = 0; i < adjlist.size(); i++){
