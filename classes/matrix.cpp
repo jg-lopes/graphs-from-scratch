@@ -17,15 +17,17 @@ Matrix::Matrix(string FileLocation){
     int from, to;
     while (GraphFile >> from >> to) {
         // Correção devido ao fato dos arquivos começarem com vértice 1
-        addEdge(from-1, to-1);
+        addEdge(from-1, to-1, num_vertices);
     }
 
     GraphFile.close();
 }
-
-void Matrix::addEdge(int from, int to){
-    matrix[from][to] = 1;
-    matrix[to][from] = 1;
+ 
+void Matrix::addEdge(int from, int to, int num_vertices){
+    if (to < num_vertices){
+        matrix[from][to] = 1;
+        matrix[to][from] = 1;
+    }
 }
 
 void Matrix::print(){
@@ -35,4 +37,58 @@ void Matrix::print(){
         }
         cout << endl;
     }
+}
+
+void Matrix::BFS(int root){
+    //Correção
+    root -= 1; 
+
+    //Vetor de Marcação
+    //Índice = Número do Vértice 
+    //Valor 0 = Desconhecido; Valor 1 = Descoberto;
+    vector < int > discovered (num_vertices, 0);
+
+    // Vetor de pais de um vértice
+    // Índice = Número do Vértice
+    // Valor = Vértice Pai
+    // Exceções: Valor 0 = Raiz; Valor -1 = Não descoberto
+    //vector < int > father (num_vertices, -1);
+
+    // Vetor de níveis do vector
+    // Valor -1 = Não descoberto
+    //vector < int > level (10, -1);
+
+    queue < int > fifo;
+
+
+    // Corrigindo para fazer início em 0
+    discovered[root] = 1;
+    //father[root] = 0;
+    //level[root] = 0;
+
+    int vertices_percorridos = 1;
+
+    fifo.push(root);
+
+
+    while (!fifo.empty()){
+        
+        int vertex = fifo.front();
+        fifo.pop();
+
+        for (int i = 0; i < num_vertices; i++){
+            
+            //Procura vértices vizinhos
+            if (matrix[vertex][i] == 1){
+                int neighbor = i;
+                
+                if (discovered[neighbor] == 0){
+                    discovered[neighbor] = 1;
+                    fifo.push(neighbor);
+                    vertices_percorridos++;
+                }
+            }
+        }
+    }
+    cout << vertices_percorridos << endl;
 }

@@ -1,4 +1,3 @@
-#include "./classes/adjlist.cpp"
 #include "./classes/matrix.cpp"
 
 /* 
@@ -33,7 +32,8 @@
 // }
 
 int main() {
-    Matrix graph("./graphs/dblp.txt");
-    //AdjList graph("dblp.txt");
+    Matrix graph("./graphs/as_graph.txt");
     //graph.print();
+    //AdjList graph("dblp.txt");
+    graph.BFS(1);
 } 
