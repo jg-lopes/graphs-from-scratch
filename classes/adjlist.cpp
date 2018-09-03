@@ -1,8 +1,6 @@
 #include "adjlist.h"
 
 AdjList::AdjList(string FileLocation){
-    GraphName = FileLocation;
-
     ifstream GraphFile;
     GraphFile.open(FileLocation);
 
@@ -14,6 +12,7 @@ AdjList::AdjList(string FileLocation){
     
     // Lê as linhas subsequentes no formato from, to para adicionar arestas ao grafo
     int from, to;
+    num_edges = 0;
     while (GraphFile >> from >> to) {
         // Correção devido ao fato dos arquivos começarem com vértice 1
         addEdge(from-1, to-1, num_vertices);
@@ -26,7 +25,8 @@ void AdjList::addEdge(int from, int to, int num_vertices){
     
     if (to < num_vertices){
         adjlist[from].push_back(to);
-        adjlist[to].push_back(from);    
+        adjlist[to].push_back(from); 
+        num_edges++;   
     }
 }
 
@@ -39,7 +39,7 @@ int AdjList::vertexDegree(int vertex) {
     return total; 
 }
 
-vector<float> AdjList::edgeInfo() { 
+vector<float> AdjList::degreeInfo() { 
     // Retorna min, máx, média e mediana em um vector respectivamente
 
     vector < int > degrees (num_vertices, -1);
@@ -71,22 +71,11 @@ vector<float> AdjList::edgeInfo() {
         median = degrees[pivot];
     }
 
-    // while (degrees.size() > 2) {
-    //     degrees.erase(degrees.begin() + min_max[2]);
-    //     degrees.erase(degrees.begin() + min_max[3]);
-    //     min_max = VectorMinMax(degrees);
-    // }
-
-    
-    // if (degrees.size() == 2) {
-    //     median = (degrees[0] + degrees[1])/2;
-    // } else {
-    //     median = degrees[0];
-    // }
-
     vector <float> answer {(float) min, (float) max, mean, median};
 
-    return answer;
+    edge_info = answer;
+
+    return edge_info;
 }
 
 void AdjList::print(){
@@ -103,7 +92,6 @@ void AdjList::print(){
 }
 
 void AdjList::BFS(int root) {
-    //Compare
     root -= 1;
 
     vector <int> discovered (num_vertices, 0);
@@ -113,7 +101,7 @@ void AdjList::BFS(int root) {
     queue <int> fifo;
 
     discovered[root] = 1;
-    father[root] = -1;
+    father[root] = 0;
     level[root] = 0;
 
     fifo.push(root);
@@ -128,16 +116,14 @@ void AdjList::BFS(int root) {
 
             if (discovered[neighbor] == 0) {
                 discovered[neighbor] = 1;
-                father[neighbor] = vertex;
+                father[neighbor] = vertex + 1;
                 level[neighbor] = level[vertex] + 1;
 
                 fifo.push(neighbor);
             }
         }        
     }
-
     outputSpanningTree(&father[0], &level[0]);
-
 }
 
 void AdjList::DFS(int root) {
@@ -146,13 +132,13 @@ void AdjList::DFS(int root) {
     root -= 1;
 
     vector < int > discovered (num_vertices, 0);
-    vector < int > father (num_vertices, -2);
+    vector < int > father (num_vertices, -1);
     vector < int > level (num_vertices, -1);
 
 
     stack < int > lifo;
 
-    father[root] = -1;
+    father[root] = 0;
     level[root] = 0;
 
     lifo.push(root);
@@ -166,8 +152,8 @@ void AdjList::DFS(int root) {
             discovered[vertex] = 1;          
 
             for (list<int>::iterator it = adjlist[vertex].begin(); it != adjlist[vertex].end(); ++it){
-                    if (father[*it] == -2){
-                        father[*it] = vertex;
+                    if (father[*it] == -1){
+                        father[*it] = vertex + 1;
                     }
                     if (level[*it] == -1) {
 
@@ -182,4 +168,52 @@ void AdjList::DFS(int root) {
 
     outputSpanningTree(&father[0], &level[0]);
 
+}
+
+vector<int> AdjList::BFS_core(int root, vector<int> &discovered) {
+    // Coração da BFS, usado no código de componentes conexos
+       
+    vector < int > component_vectors;
+    component_vectors.insert(component_vectors.end(), root);
+    queue <int> fifo;
+
+    discovered[root] = 1;
+    fifo.push(root);
+
+    while (!fifo.empty()) {
+
+        int vertex = fifo.front();
+        fifo.pop();
+
+        for (list<int>::iterator it = adjlist[vertex].begin(); it != adjlist[vertex].end(); ++it){
+            int neighbor = *it;
+
+            if (discovered[neighbor] == 0) {
+                discovered[neighbor] = 1;
+                component_vectors.insert(component_vectors.end(), neighbor);
+                fifo.push(neighbor);
+            }
+        }        
+    }
+
+    return component_vectors;
+}
+
+int AdjList::connectedComponents() {
+    vector <int> discovered (num_vertices, 0);
+    
+    vector < vector <int> > verticesComponent;
+
+    int num_components = 0;
+
+    for(int i = 0; i < num_vertices; i++) {
+
+        if (discovered[i] == 0) {
+            verticesComponent.insert(verticesComponent.end(), BFS_core(i , discovered));       
+            num_components += 1;
+        }
+    }
+
+    outputConnectedComponents(verticesComponent);
+    return verticesComponent.size();
 }

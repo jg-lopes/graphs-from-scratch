@@ -12,8 +12,10 @@ using namespace std;
 class Graph {
     public:
         void outputSpanningTree(int* father, int* level);
+        void outputGraphInfo();
     protected:
         int num_vertices;
         int num_edges;
-        string GraphName;
+        int num_components;
+        vector<float> edge_info;
 };

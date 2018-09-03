@@ -1,0 +1,6 @@
+Número de Vértices: 32385
+Número de Arestas: 46823
+Grau Mínimo: 1
+Grau Máximo: 2159
+Média do Grau: 2.88627
+Mediana de Grau: 1
