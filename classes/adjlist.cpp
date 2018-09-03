@@ -35,7 +35,6 @@ int AdjList::vertexDegree(int vertex) {
     for (list<int>::iterator it = adjlist[vertex].begin(); it != adjlist[vertex].end(); ++it) {
         total += 1;
     }
-    // Correção para cálculo de duas arestas
     return total; 
 }
 

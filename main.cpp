@@ -5,16 +5,14 @@
 /* 
     TRABALHO DE GRAFOS
     Grupo: João Gabriel Lopes e Gustavo Machado
-
-    Fazer as medidas do estudo de caso
 */
 
  
 int main() {
-    Matrix graph("./graphs/as_graph.txt");
+    AdjList graph("./graphs/live_journal.txt");
     graph.degreeInfo();
 
     graph.outputGraphInfo();
-    graph.BFS(1);
+    graph.BFS(15000);
     graph.connectedComponents();
 } 
