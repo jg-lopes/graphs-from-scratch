@@ -1,3 +1,6 @@
+#ifndef GRAPH_H
+#define GRAPH_H
+
 #include <string>
 #include <list>
 #include <vector>
@@ -6,6 +9,7 @@
 #include <fstream>
 #include <stack>
 #include <algorithm>
+
 
 using namespace std;
 
@@ -19,3 +23,9 @@ class Graph {
         int num_components;
         vector<float> edge_info;
 };
+
+#include "graph.cpp"
+#include "matrix.cpp"
+#include "adjlist.cpp"
+
+#endif

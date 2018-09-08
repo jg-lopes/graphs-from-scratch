@@ -1,7 +1,6 @@
-#include "./classes/graph.cpp"
-#include "./classes/matrix.cpp"
-#include "./classes/adjlist.cpp"
+#include "./classes/graph.h"
 
+#include <chrono>
 /* 
     TRABALHO DE GRAFOS
     Grupo: João Gabriel Lopes e Gustavo Machado
@@ -9,10 +8,19 @@
 
  
 int main() {
-    AdjList graph("./graphs/live_journal.txt");
-    graph.degreeInfo();
+    Matrix graph("./graphs/tuturuu.txt", 0);
+    graph.print();
 
-    graph.outputGraphInfo();
-    graph.BFS(15000);
-    graph.connectedComponents();
+    
+
+    // auto ti = chrono::high_resolution_clock::now();
+    // for (int i = 1; i < 11; i++){
+    //     auto t1 = chrono::high_resolution_clock::now();
+    //     graph.BFS(i);
+    //     auto t2 = chrono::high_resolution_clock::now();
+    //     cout << "Tempo parcial do vértice " << i << ": " << chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
+    // }
+
+    // auto tf = chrono::high_resolution_clock::now();
+    // cout << "Duração da função: " << chrono::duration_cast<std::chrono::milliseconds>(tf-ti).count();
 } 

@@ -31,6 +31,8 @@ void AdjList::addEdge(int from, int to, int num_vertices){
 }
 
 int AdjList::vertexDegree(int vertex) {
+    // Retorna o grau de um dado vértice
+
     int total = 0;
     for (list<int>::iterator it = adjlist[vertex].begin(); it != adjlist[vertex].end(); ++it) {
         total += 1;
@@ -78,7 +80,6 @@ vector<float> AdjList::degreeInfo() {
 }
 
 void AdjList::print(){
-
     for (int i = 0; i < adjlist.size(); i++){
         cout << "Adjacency adjlist of vertex " << i << endl;
 
@@ -91,6 +92,7 @@ void AdjList::print(){
 }
 
 void AdjList::BFS(int root) {
+    
     root -= 1;
 
     vector <int> discovered (num_vertices, 0);
@@ -122,7 +124,7 @@ void AdjList::BFS(int root) {
             }
         }        
     }
-    outputSpanningTree(&father[0], &level[0]);
+    //outputSpanningTree(&father[0], &level[0]);
 }
 
 void AdjList::DFS(int root) {
@@ -199,6 +201,9 @@ vector<int> AdjList::BFS_core(int root, vector<int> &discovered) {
 }
 
 int AdjList::connectedComponents() {
+    // Calcula os componentes conexos do Grafo
+    // Retorna os componentes no arquivo connected_components.txt
+
     vector <int> discovered (num_vertices, 0);
     
     vector < vector <int> > verticesComponent;

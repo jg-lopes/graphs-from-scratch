@@ -12,6 +12,8 @@
         "deque": "cpp",
         "list": "cpp",
         "unordered_map": "cpp",
-        "ostream": "cpp"
-    }
+        "ostream": "cpp",
+        "chrono": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "Enabled"
 }

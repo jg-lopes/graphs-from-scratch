@@ -1,6 +1,6 @@
 #include "matrix.h"
 
-Matrix::Matrix(string FileLocation){
+Matrix::Matrix(string FileLocation, int directed){
     ifstream GraphFile;
     GraphFile.open(FileLocation);
 
@@ -16,15 +16,25 @@ Matrix::Matrix(string FileLocation){
     // Lê as linhas subsequentes no formato from, to para adicionar arestas ao grafo
     int from, to;
     num_edges = 0;
-    while (GraphFile >> from >> to) {
+    if (directed) {
+        while (GraphFile >> from >> to) {
         // Correção devido ao fato dos arquivos começarem com vértice 1
-        addEdge(from-1, to-1, num_vertices);
+            addEdgeDirected(from-1, to-1, num_vertices);
+        }
+    } else {
+        while (GraphFile >> from >> to) {
+        // Correção devido ao fato dos arquivos começarem com vértice 1
+            addEdgeUndirected(from-1, to-1, num_vertices);
+        }
     }
+    
 
     GraphFile.close();
 }
  
-void Matrix::addEdge(int from, int to, int num_vertices){
+void Matrix::addEdgeDirected(int from, int to, int num_vertices){
+    // Insere um vértice na estrutura
+
     if (to < num_vertices){
         matrix[from][to] = 1;
         matrix[to][from] = 1;
@@ -32,8 +42,19 @@ void Matrix::addEdge(int from, int to, int num_vertices){
     }
 }
 
+void Matrix::addEdgeUndirected(int from, int to, int num_vertices){
+    // Insere um vértice na estrutura
+
+    if (to < num_vertices){
+        matrix[from][to] = 1;
+        num_edges++;
+    }
+}
+
 
 int Matrix::vertexDegree(int vertex) {
+    // Retorna o grau do vértice na Matriz
+
     int total = 0;
     for (int i = 0; i < matrix.size(); i++) {
         total += matrix[vertex][i];
@@ -82,6 +103,8 @@ vector<float> Matrix::degreeInfo() {
 }
 
 void Matrix::print(){
+    // Printa no console a representação da matriz
+
     for (int i = 0; i < matrix.size(); i++){
         for (int j = 0; j < matrix[i].size(); j++){
             cout << matrix[i][j] << " ";
@@ -91,7 +114,10 @@ void Matrix::print(){
 }
 
 void Matrix::BFS(int root){
-    //Correção
+    // Executa a BFS no grafo a partir de um vérice raiz
+    // Retorna a árvore geradora no arquivo spanning_tree.txt
+
+    //Correção para base 0
     root -= 1; 
 
     //Vetor de Marcação
@@ -105,7 +131,7 @@ void Matrix::BFS(int root){
     // Exceções: Valor 0 = Raiz; Valor -1 = Não descoberto
     vector < int > father (num_vertices, -1);
 
-    // Vetor de níveis do vector
+    // Vetor de níveis do grafo
     // Valor -1 = Não descoberto
     vector < int > level (num_vertices, -1);
 
@@ -148,11 +174,25 @@ void Matrix::BFS(int root){
 }
 
 void Matrix::DFS(int root) {
-    //Correção
+    // Executa a BFS no grafo a partir de um vérice raiz
+    // Retorna a árvore geradora no arquivo spanning_tree.txt
+
+    //Correção para base 0
     root -= 1;
     
+    //Vetor de Marcação
+    //Índice = Número do Vértice 
+    //Valor 0 = Desconhecido; Valor 1 = Descoberto;
     vector < int > discovered (num_vertices, 0);
+    
+    // Vetor de pais de um vértice
+    // Índice = Número do Vértice
+    // Valor = Vértice Pai
+    // Exceções: Valor 0 = Raiz; Valor -1 = Não descoberto
     vector < int > father (num_vertices, -1);
+
+    // Vetor de níveis do grafo
+    // Valor -1 = Não descoberto
     vector < int > level (num_vertices, -1);
 
     stack < int > lifo;
@@ -173,10 +213,10 @@ void Matrix::DFS(int root) {
             for (int i = 0; i < num_vertices; i++){
                 if (matrix[vertex][i] == 1){
                     if (father[i] == -1){
+                        // Correção devido ao arquivo começar em vértice 1
                         father[i] = vertex + 1;
                     }
                     if (level[i] == -1) {
-
                         level[i] = level[vertex] + 1;
                     }
                     lifo.push(i);
@@ -221,6 +261,9 @@ vector<int> Matrix::BFS_core(int root, vector<int> &discovered) {
 }
 
 int Matrix::connectedComponents() {
+    // Calcula os componentes conexos do Grafo
+    // Retorna os componentes no arquivo connected_components.txt
+    
     vector <int> discovered (num_vertices, 0);
     
     vector < vector <int> > verticesComponent;

@@ -1,3 +1,6 @@
+#ifndef ADJLIST_H
+#define ADJLIST_H
+
 class AdjList: public Graph {
     public:
         AdjList(string FileLocation);
@@ -12,3 +15,5 @@ class AdjList: public Graph {
         vector < list < int > > adjlist;
         vector<int> BFS_core(int root, vector<int> &discovered);
 };
+
+#endif
