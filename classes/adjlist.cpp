@@ -22,7 +22,8 @@ AdjList::AdjList(string FileLocation){
 }
 
 void AdjList::addEdge(int from, int to, int num_vertices){
-    
+    // Insere um vértice na estrutura
+
     if (to < num_vertices){
         adjlist[from].push_back(to);
         adjlist[to].push_back(from); 
@@ -42,7 +43,8 @@ int AdjList::vertexDegree(int vertex) {
 
 vector<float> AdjList::degreeInfo() { 
     // Retorna min, máx, média e mediana em um vector respectivamente
-
+    // Calcula o valor no atributo edge_info e o retorna
+ 
     vector < int > degrees (num_vertices, -1);
 
     int sum_degrees = 0;
@@ -80,6 +82,8 @@ vector<float> AdjList::degreeInfo() {
 }
 
 void AdjList::print(){
+    // Printa no console a representação da matriz
+
     for (int i = 0; i < adjlist.size(); i++){
         cout << "Adjacency adjlist of vertex " << i << endl;
 
@@ -92,11 +96,25 @@ void AdjList::print(){
 }
 
 void AdjList::BFS(int root) {
-    
+    // Executa a BFS no grafo a partir de um vérice raiz
+    // Retorna a árvore geradora no arquivo spanning_tree.txt
+
+    //Correção para base 0
     root -= 1;
 
+    //Vetor de Marcação
+    //Índice = Número do Vértice 
+    //Valor 0 = Desconhecido; Valor 1 = Descoberto;
     vector <int> discovered (num_vertices, 0);
+
+    // Vetor de pais de um vértice
+    // Índice = Número do Vértice
+    // Valor = Vértice Pai
+    // Exceções: Valor 0 = Raiz; Valor -1 = Não descoberto
     vector <int> father (num_vertices, -1);
+    
+    // Vetor de níveis do grafo
+    // Valor -1 = Não descoberto
     vector <int> level (num_vertices, -1);
 
     queue <int> fifo;
@@ -117,23 +135,39 @@ void AdjList::BFS(int root) {
 
             if (discovered[neighbor] == 0) {
                 discovered[neighbor] = 1;
-                father[neighbor] = vertex + 1;
                 level[neighbor] = level[vertex] + 1;
+
+                // Correção devido ao arquivo começar em vértice 1
+                father[neighbor] = vertex + 1;
+                
 
                 fifo.push(neighbor);
             }
         }        
     }
-    //outputSpanningTree(&father[0], &level[0]);
+    outputSpanningTree(&father[0], &level[0]);
 }
 
 void AdjList::DFS(int root) {
+    // Executa a BFS no grafo a partir de um vérice raiz
+    // Retorna a árvore geradora no arquivo spanning_tree.txt
 
-    //Correção
+    //Correção para base 0
     root -= 1;
 
+    //Vetor de Marcação
+    //Índice = Número do Vértice 
+    //Valor 0 = Desconhecido; Valor 1 = Descoberto;
     vector < int > discovered (num_vertices, 0);
+
+    // Vetor de pais de um vértice
+    // Índice = Número do Vértice
+    // Valor = Vértice Pai
+    // Exceções: Valor 0 = Raiz; Valor -1 = Não descoberto
     vector < int > father (num_vertices, -1);
+    
+    // Vetor de níveis do grafo
+    // Valor -1 = Não descoberto
     vector < int > level (num_vertices, -1);
 
 
@@ -154,6 +188,7 @@ void AdjList::DFS(int root) {
 
             for (list<int>::iterator it = adjlist[vertex].begin(); it != adjlist[vertex].end(); ++it){
                     if (father[*it] == -1){
+                        // Correção devido ao arquivo começar em vértice 1
                         father[*it] = vertex + 1;
                     }
                     if (level[*it] == -1) {
