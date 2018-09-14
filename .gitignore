@@ -1,1 +1,11 @@
-graphs/*
+#ignore all txts
+*.txt
+
+#ignore all binary archives
+#ignore io binary
+io
+#ignore main binary 
+main
+#ignore a.out
+a.out
+ 
