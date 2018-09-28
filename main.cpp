@@ -1,15 +1,21 @@
 #include "./classes/graph.h"
-
+ 
 #include <chrono>
 /* 
     TRABALHO DE GRAFOS
     Grupo: João Gabriel Lopes e Gustavo Machado
+
+    1. Fazer a estrutura capaz de reconhecer grafos de peso - OK
+    2. Dijkstra e suas peculiaridades - Falta fazer o offset
+    3. Prim
+    4. Excentricidade vulgo que porra é essa
+    5 Distância Média, nem conheço mas ja fede
 */
 
  
 int main() {
-    Matrix graph("./graphs/tuturuu.txt", 0);
-    graph.print();
+    w_Matrix graph("./grafo_3.txt");
+    graph.Dijkstra(1);
 
     
 

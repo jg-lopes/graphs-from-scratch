@@ -27,5 +27,6 @@ class Graph {
 #include "graph.cpp"
 #include "matrix.cpp"
 #include "adjlist.cpp"
-
+#include "w_matrix.cpp"
+#include "w_adjlist.cpp"
 #endif

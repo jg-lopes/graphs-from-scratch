@@ -32,7 +32,7 @@ Matrix::Matrix(string FileLocation, int directed){
     GraphFile.close();
 }
  
-void Matrix::addEdgeDirected(int from, int to, int num_vertices){
+void Matrix::addEdgeUndirected(int from, int to, int num_vertices){
     // Insere um vértice na estrutura
 
     if (to < num_vertices){
@@ -42,7 +42,7 @@ void Matrix::addEdgeDirected(int from, int to, int num_vertices){
     }
 }
 
-void Matrix::addEdgeUndirected(int from, int to, int num_vertices){
+void Matrix::addEdgeDirected(int from, int to, int num_vertices){
     // Insere um vértice na estrutura
 
     if (to < num_vertices){

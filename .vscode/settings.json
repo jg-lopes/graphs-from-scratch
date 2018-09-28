@@ -1,19 +1,7 @@
 {
     "files.associations": {
-        "iosfwd": "cpp",
         "vector": "cpp",
-        "iostream": "cpp",
-        "string": "cpp",
-        "array": "cpp",
-        "string_view": "cpp",
-        "initializer_list": "cpp",
-        "utility": "cpp",
-        "*.tcc": "cpp",
-        "deque": "cpp",
-        "list": "cpp",
-        "unordered_map": "cpp",
-        "ostream": "cpp",
-        "chrono": "cpp"
-    },
-    "C_Cpp.errorSquiggles": "Enabled"
+        "chrono": "cpp",
+        "limits": "cpp"
+    }
 }
