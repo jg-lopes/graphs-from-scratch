@@ -56,32 +56,167 @@ void w_AdjList::print(){
 }
 
 void w_AdjList::Dijkstra(int root){
+    auto ti = chrono::high_resolution_clock::now();
 
     // Cria distâncias do maior valor possível (infinito)
     vector < double > dist (num_vertices, __DBL_MAX__);
 
-
-    vector < bool > set (num_vertices, false); // Conjunto S
-    int num_in_set = 0;
-
     dist[root] = 0;
 
-    while (num_in_set != num_vertices) {        
-        int u = distance_outside_set(dist, set, num_vertices);
-        num_in_set++;
-        set[u] = true;
+    set< pair<double, int> > remaining_vertices;
+    remaining_vertices.insert( {0, root} );
 
-        for (list<AdjList_Tuple>::iterator it = adjlist[u].begin(); it != adjlist[u].end(); ++it){
+
+    while (!remaining_vertices.empty()) {        
+        
+        double current_dist = remaining_vertices.begin()->first;
+        int current_vertex = remaining_vertices.begin()->second;
+
+        remaining_vertices.erase( {current_dist, current_vertex});
+
+        for (list<AdjList_Tuple>::iterator it = adjlist[current_vertex].begin(); it != adjlist[current_vertex].end(); ++it){
             int neighbor = it->connected_vertex; 
-            if (dist[neighbor] > dist[u] + it->weight) {
-                dist[neighbor] = dist[u] + it->weight;
+            if (dist[neighbor] > dist[current_vertex] + it->weight) {
+                dist[neighbor] = dist[current_vertex] + it->weight;
+                remaining_vertices.insert( {dist[neighbor], neighbor});
             }
         }
     }
-    
-    for (int i = 0; i < num_vertices; i++){
+    auto tf = chrono::high_resolution_clock::now();
+    cout << "Duração da função: " << chrono::duration_cast<chrono::milliseconds>(tf-ti).count() << " milisegundos\n";    
+    for (int i = 0; i < 15; i++){
         cout << dist[i] << " ";
     }
     cout << "\n";
 
+}
+
+
+double w_AdjList::Dijkstra_target(int root, int target){
+    // Calcula a menor distância entre dois vértices
+
+    auto ti = chrono::high_resolution_clock::now();
+
+    // Cria distâncias do maior valor possível (infinito)
+    vector < double > dist (num_vertices, __DBL_MAX__);
+    dist[root] = 0;
+
+    set< pair<double, int> > remaining_vertices;
+    remaining_vertices.insert( {0, root} );
+
+
+    while (!remaining_vertices.empty()) {        
+        
+        double current_dist = remaining_vertices.begin()->first;
+        int current_vertex = remaining_vertices.begin()->second;
+        if (current_vertex == target) {
+            auto tf = chrono::high_resolution_clock::now();
+            //cout << "Duração da função: " << chrono::duration_cast<chrono::milliseconds>(tf-ti).count() << " milisegundos\n";
+            return dist[current_vertex];
+        }
+
+        remaining_vertices.erase( {current_dist, current_vertex});
+
+        for (list<AdjList_Tuple>::iterator it = adjlist[current_vertex].begin(); it != adjlist[current_vertex].end(); ++it){
+            int neighbor = it->connected_vertex; 
+            if (dist[neighbor] > dist[current_vertex] + it->weight) {
+                dist[neighbor] = dist[current_vertex] + it->weight;
+                remaining_vertices.insert( {dist[neighbor], neighbor});
+            }
+        }
+    }
+    auto tf = chrono::high_resolution_clock::now();
+    //cout << "Duração da função: " << chrono::duration_cast<chrono::milliseconds>(tf-ti).count() << " milisegundos\n";    
+    for (int i = 0; i < 15; i++){
+        //cout << dist[i] << " ";
+    }
+    //cout << "\n";
+
+}
+
+
+
+void w_AdjList::Prim(int root){
+    auto ti = chrono::high_resolution_clock::now();
+
+    vector < double > cost (num_vertices, __DBL_MAX__);
+    cost[root] = 0;
+
+    set< pair<double, int> > remaining_vertices;
+    remaining_vertices.insert( {0, root} );
+    
+    while (!remaining_vertices.empty()){
+        double current_cost = remaining_vertices.begin()->first;
+        int current_vertex = remaining_vertices.begin()->second;
+
+        remaining_vertices.erase( {current_cost, current_vertex});
+
+        for (list<AdjList_Tuple>::iterator it = adjlist[current_vertex].begin(); it != adjlist[current_vertex].end(); ++it){
+            int neighbor = it->connected_vertex; 
+            if (cost[neighbor] > it->weight) {
+                cost[neighbor] = it->weight;
+                remaining_vertices.insert( {cost[neighbor], neighbor});
+            }
+        }
+    }
+
+    auto tf = chrono::high_resolution_clock::now();
+    cout << "Duração da função: " << chrono::duration_cast<chrono::milliseconds>(tf-ti).count() << " milisegundos\n";
+    for (int i = 0; i < 15; i++){
+        cout << cost[i] << " ";
+    }
+    cout << endl;
+}
+
+
+vector < double > w_AdjList::Dijkstra_core(int root){
+    // Cria distâncias do maior valor possível (infinito)
+    vector < double > dist (num_vertices, __DBL_MAX__);
+
+    dist[root] = 0;
+
+    set< pair<double, int> > remaining_vertices;
+    remaining_vertices.insert( {0, root} );
+
+
+    while (!remaining_vertices.empty()) {        
+        
+        double current_dist = remaining_vertices.begin()->first;
+        int current_vertex = remaining_vertices.begin()->second;
+
+        remaining_vertices.erase( {current_dist, current_vertex});
+
+        for (list<AdjList_Tuple>::iterator it = adjlist[current_vertex].begin(); it != adjlist[current_vertex].end(); ++it){
+            int neighbor = it->connected_vertex; 
+            if (dist[neighbor] > dist[current_vertex] + it->weight) {
+                dist[neighbor] = dist[current_vertex] + it->weight;
+                remaining_vertices.insert( {dist[neighbor], neighbor});
+            }
+        }
+    }
+    return dist;
+}
+
+
+double w_AdjList::excentricity(int root){
+    auto ti = chrono::high_resolution_clock::now();
+    
+    double max = 0;
+    int max_vertex = -1;
+    
+
+    vector <double> dist = Dijkstra_core(root);
+    
+    for (int vertex = 0; vertex < num_vertices; vertex++){
+        if (dist[vertex] > max) {
+            max = dist[vertex];
+            max_vertex = vertex;
+        }
+    }
+    
+    auto tf = chrono::high_resolution_clock::now();
+    cout << "Duração da função: " << chrono::duration_cast<chrono::milliseconds>(tf-ti).count() << " milisegundos\n";
+    cout << "Excentricidade: " << max << endl;
+    cout << "Vértice para excentricidade: " << max_vertex << endl;
+    return max;
 }

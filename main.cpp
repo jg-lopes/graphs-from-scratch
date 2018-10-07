@@ -1,23 +1,23 @@
 #include "./classes/graph.h"
- 
-#include <chrono>
-/* 
+ /* 
     TRABALHO DE GRAFOS
     Grupo: João Gabriel Lopes e Gustavo Machado
 
-    1. Fazer a estrutura capaz de reconhecer grafos de peso - OK
-    2. Dijkstra e suas peculiaridades - Falta fazer o offset
-    3. Prim
-    4. Excentricidade vulgo que porra é essa
+    1. Estudar erros de off by one no Djikstra e Prim
+    2. Corretude do Djikstra e prim
+    3. Corretude da excentricidade
     5 Distância Média, nem conheço mas ja fede
 */
 
  
 int main() {
-    w_Matrix graph("./grafo_3.txt");
-    graph.Dijkstra(1);
+    w_AdjList adjlist("./grafo_5.txt");
+    adjlist.excentricity(1);
 
     
+    // for (int i = 0; i < 15; i++){
+    //      cout << adjlist.Dijkstra_target(1, i) << endl;
+    // }
 
     // auto ti = chrono::high_resolution_clock::now();
     // for (int i = 1; i < 11; i++){

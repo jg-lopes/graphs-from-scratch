@@ -26,6 +26,8 @@ w_Matrix::w_Matrix(string FileLocation){
     GraphFile.close();
 }
 
+
+
 void w_Matrix::addEdge(int from, int to, int num_vertices, double weight){
     // Insere um vértice na estrutura
 
@@ -40,6 +42,8 @@ void w_Matrix::addEdge(int from, int to, int num_vertices, double weight){
     }
 }
 
+
+
 void w_Matrix::print(){
     // Printa no console a representação da matriz
 
@@ -51,42 +55,124 @@ void w_Matrix::print(){
     }
 }
 
-int distance_outside_set(vector <double> distance, vector <bool> set, int num_vertices){
 
-    double min = __DBL_MAX__, min_index;    
-    for (int neighbor = 0; neighbor < num_vertices; neighbor++) 
-        if (set[neighbor] == false && distance[neighbor] <= min) 
-            min = distance[neighbor], min_index = neighbor; 
-   
-   return min_index; 
-}
 
 void w_Matrix::Dijkstra(int root){
-
+    auto ti = chrono::high_resolution_clock::now();
+    
     // Cria distâncias do maior valor possível (infinito)
     vector < double > dist (num_vertices, __DBL_MAX__);
-
-
-    vector < bool > set (num_vertices, false); // Conjunto S
-    int num_in_set = 0;
-
     dist[root] = 0;
 
-    while (num_in_set != num_vertices) {        
-        int u = distance_outside_set(dist, set, num_vertices);
-        num_in_set++;
-        set[u] = true;
+    set< pair<double, int> > remaining_vertices;
+    remaining_vertices.insert( {0, root} );
+
+
+    while (!remaining_vertices.empty()) {        
+
+        double current_dist = remaining_vertices.begin()->first;
+        int current_vertex = remaining_vertices.begin()->second;
+        
+        remaining_vertices.erase( {current_dist, current_vertex});
 
         for (int neighbor = 0; neighbor < num_vertices; neighbor++){
-            if (dist[neighbor] > dist[u] + matrix[u][neighbor].weight && matrix[u][neighbor].exists_vertex){
-                dist[neighbor] = dist[u] + matrix[u][neighbor].weight;
+            if (dist[neighbor] > dist[current_vertex] + matrix[current_vertex][neighbor].weight 
+                        && matrix[current_vertex][neighbor].exists_vertex){
+
+    
+                dist[neighbor] = dist[current_vertex] + matrix[current_vertex][neighbor].weight;
+                remaining_vertices.insert( {dist[neighbor], neighbor});
+
             }
         }
     }
     
-    for (int i = 0; i < num_vertices; i++){
+    auto tf = chrono::high_resolution_clock::now();
+    cout << "Duração da função: " << chrono::duration_cast<chrono::milliseconds>(tf-ti).count() << " milisegundos\n";
+    for (int i = 0; i < 15; i++){
         cout << dist[i] << " ";
     }
     cout << "\n";
+}
 
+
+
+double w_Matrix::Dijkstra_target(int root, int target){
+    auto ti = chrono::high_resolution_clock::now();
+    
+    // Cria distâncias do maior valor possível (infinito)
+    vector < double > dist (num_vertices, __DBL_MAX__);
+    dist[root] = 0;
+
+    set< pair<double, int> > remaining_vertices;
+    remaining_vertices.insert( {0, root} );
+
+
+    while (!remaining_vertices.empty()) {       
+        double current_dist = remaining_vertices.begin()->first;
+        int current_vertex = remaining_vertices.begin()->second;
+        if (current_vertex == target) {
+            auto tf = chrono::high_resolution_clock::now();
+            cout << "Duração da função: " << chrono::duration_cast<chrono::milliseconds>(tf-ti).count() << " milisegundos\n";
+            return dist[current_vertex];
+        }
+        
+        remaining_vertices.erase( {current_dist, current_vertex});
+
+        for (int neighbor = 0; neighbor < num_vertices; neighbor++){
+            if (dist[neighbor] > dist[current_vertex] + matrix[current_vertex][neighbor].weight 
+                        && matrix[current_vertex][neighbor].exists_vertex){
+
+                //remaining_vertices.erase( {dist[neighbor], neighbor});
+                dist[neighbor] = dist[current_vertex] + matrix[current_vertex][neighbor].weight;
+                remaining_vertices.insert( {dist[neighbor], neighbor});
+
+            }
+        }
+    }
+    
+    auto tf = chrono::high_resolution_clock::now();
+    cout << "Duração da função: " << chrono::duration_cast<chrono::milliseconds>(tf-ti).count() << " milisegundos\n";
+    for (int i = 0; i < 15; i++){
+        cout << dist[i] << " ";
+    }
+    cout << "\n";
+    return __DBL_MAX__;
+}
+
+
+
+void w_Matrix::Prim(int root){
+    auto ti = chrono::high_resolution_clock::now();
+
+    vector < double > cost (num_vertices, __DBL_MAX__);
+    cost[root] = 0;
+
+    set< pair<double, int> > remaining_vertices;
+    remaining_vertices.insert( {0, root} );
+    
+    while (!remaining_vertices.empty()){
+        double current_cost = remaining_vertices.begin()->first;
+        int current_vertex = remaining_vertices.begin()->second;
+
+        remaining_vertices.erase( {current_cost, current_vertex});
+
+
+        for (int neighbor = 0; neighbor < num_vertices; neighbor++){
+            if (cost[neighbor] > matrix[current_vertex][neighbor].weight 
+                        && matrix[current_vertex][neighbor].exists_vertex){
+                
+                
+                cost[neighbor] = matrix[current_vertex][neighbor].weight;
+                remaining_vertices.insert( {cost[neighbor], neighbor});
+            }
+        }
+    }
+
+    auto tf = chrono::high_resolution_clock::now();
+    cout << "Duração da função: " << chrono::duration_cast<chrono::milliseconds>(tf-ti).count() << " milisegundos\n";
+    for (int i = 0; i < 15; i++){
+        cout << cost[i] << " ";
+    }
+    cout << endl;
 }
