@@ -23,6 +23,7 @@ w_AdjList::w_AdjList(string FileLocation){
 }
 
 
+
 void w_AdjList::addEdge(int from, int to, int num_vertices, double weight){
     // Insere um vértice na estrutura
 
@@ -41,6 +42,8 @@ void w_AdjList::addEdge(int from, int to, int num_vertices, double weight){
     }
 }
 
+
+
 void w_AdjList::print(){
     // Printa no console a representação da matriz
 
@@ -55,8 +58,14 @@ void w_AdjList::print(){
 
 }
 
+
+
 void w_AdjList::Dijkstra(int root){
+  
     auto ti = chrono::high_resolution_clock::now();
+    
+    // Corrige o erro de of by one
+    root = root-1;  
 
     // Cria distâncias do maior valor possível (infinito)
     vector < double > dist (num_vertices, __DBL_MAX__);
@@ -91,15 +100,37 @@ void w_AdjList::Dijkstra(int root){
 
 }
 
+vector < int > w_AdjList::findPathFromParent (vector < int > parent, int target){
+    vector < int > path;
+    int iter = parent[target];
+    path.push_back(iter);
+    while (parent[iter] != -1) {
+        iter = parent[iter];
+        path.push_back(iter);
+    }
 
-double w_AdjList::Dijkstra_target(int root, int target){
+    for (int i = path.size()-1; i > -1; i--){
+        //Ajusta o off by one
+        cout << path[i]+1 << " ";
+    }
+    cout << target+1 << " " << endl;
+    return path;
+}
+
+pair < double, vector <int> > w_AdjList::Dijkstra_target(int root, int target){
     // Calcula a menor distância entre dois vértices
 
     auto ti = chrono::high_resolution_clock::now();
 
+    // Corrige erros off by one
+    root--;
+    target--;
+
     // Cria distâncias do maior valor possível (infinito)
     vector < double > dist (num_vertices, __DBL_MAX__);
     dist[root] = 0;
+
+    vector < int > parent (num_vertices, -1);
 
     set< pair<double, int> > remaining_vertices;
     remaining_vertices.insert( {0, root} );
@@ -112,7 +143,10 @@ double w_AdjList::Dijkstra_target(int root, int target){
         if (current_vertex == target) {
             auto tf = chrono::high_resolution_clock::now();
             //cout << "Duração da função: " << chrono::duration_cast<chrono::milliseconds>(tf-ti).count() << " milisegundos\n";
-            return dist[current_vertex];
+            pair < double, vector <int> > ans;
+            ans.first = dist[current_vertex];
+            ans.second = findPathFromParent(parent, target);
+            return ans;
         }
 
         remaining_vertices.erase( {current_dist, current_vertex});
@@ -122,22 +156,27 @@ double w_AdjList::Dijkstra_target(int root, int target){
             if (dist[neighbor] > dist[current_vertex] + it->weight) {
                 dist[neighbor] = dist[current_vertex] + it->weight;
                 remaining_vertices.insert( {dist[neighbor], neighbor});
+                parent[neighbor] = current_vertex;
             }
         }
     }
     auto tf = chrono::high_resolution_clock::now();
     //cout << "Duração da função: " << chrono::duration_cast<chrono::milliseconds>(tf-ti).count() << " milisegundos\n";    
-    for (int i = 0; i < 15; i++){
-        //cout << dist[i] << " ";
-    }
-    //cout << "\n";
-
+    
+    
+    pair < double, vector <int> > ans;
+    ans.first = -1;
+    ans.second = findPathFromParent(parent, target);
+    return ans;
 }
 
 
 
-void w_AdjList::Prim(int root){
-    auto ti = chrono::high_resolution_clock::now();
+double w_AdjList::Prim(int root){
+    //auto ti = chrono::high_resolution_clock::now();
+
+    // Corrige o erro de of by one
+    root = root-1;  
 
     vector < double > cost (num_vertices, __DBL_MAX__);
     cost[root] = 0;
@@ -160,20 +199,27 @@ void w_AdjList::Prim(int root){
         }
     }
 
-    auto tf = chrono::high_resolution_clock::now();
-    cout << "Duração da função: " << chrono::duration_cast<chrono::milliseconds>(tf-ti).count() << " milisegundos\n";
-    for (int i = 0; i < 15; i++){
-        cout << cost[i] << " ";
+    double total_cost = 0;
+    for (int i = 0; i < num_vertices; i++){
+        if (cost[i] != __DBL_MAX__){
+            total_cost += cost[i];
+        }
     }
-    cout << endl;
+    return total_cost;
 }
 
 
-vector < double > w_AdjList::Dijkstra_core(int root){
+
+pair < vector < double >, vector <int> > w_AdjList::Dijkstra_core(int root){
+    // CHAMADO DE DENTRO DAS FUNÇÕES, NÃO TEM OFF BY ONE
+
+
     // Cria distâncias do maior valor possível (infinito)
     vector < double > dist (num_vertices, __DBL_MAX__);
-
     dist[root] = 0;
+
+    // Cria vetor para armazenar os pais dos vértices
+    vector < int > parent (num_vertices, -1);
 
     set< pair<double, int> > remaining_vertices;
     remaining_vertices.insert( {0, root} );
@@ -191,21 +237,29 @@ vector < double > w_AdjList::Dijkstra_core(int root){
             if (dist[neighbor] > dist[current_vertex] + it->weight) {
                 dist[neighbor] = dist[current_vertex] + it->weight;
                 remaining_vertices.insert( {dist[neighbor], neighbor});
+                parent[neighbor] = current_vertex;
             }
         }
     }
-    return dist;
+    pair < vector < double >, vector <int> > ans;
+    ans.first = dist;
+    ans.second = parent;
+    return ans;
 }
 
 
+
 double w_AdjList::excentricity(int root){
-    auto ti = chrono::high_resolution_clock::now();
+    //auto ti = chrono::high_resolution_clock::now();
     
+    // Corrige erros off by one
+    root--;
+
     double max = 0;
     int max_vertex = -1;
     
 
-    vector <double> dist = Dijkstra_core(root);
+    vector <double> dist = Dijkstra_core(root).first;
     
     for (int vertex = 0; vertex < num_vertices; vertex++){
         if (dist[vertex] > max) {
@@ -213,10 +267,30 @@ double w_AdjList::excentricity(int root){
             max_vertex = vertex;
         }
     }
-    
-    auto tf = chrono::high_resolution_clock::now();
-    cout << "Duração da função: " << chrono::duration_cast<chrono::milliseconds>(tf-ti).count() << " milisegundos\n";
-    cout << "Excentricidade: " << max << endl;
-    cout << "Vértice para excentricidade: " << max_vertex << endl;
+
+    //auto tf = chrono::high_resolution_clock::now();
+    //cout << "Duração da função: " << chrono::duration_cast<chrono::milliseconds>(tf-ti).count() << " milisegundos\n";
+    //cout << "Excentricidade: " << max << endl;
+    //cout << "Vértice para excentricidade: " << max_vertex << endl;
     return max;
+}
+
+
+
+double w_AdjList::medium_distance(){
+    double sum_of_distances = 0;
+    double amount_of_distances = (num_vertices*(num_vertices-1))/2;
+    
+    for (int root = 0; root < num_vertices; root++){
+        vector <double> dist = Dijkstra_core(root).first;
+        //cout << root << endl;
+        for (int vertex = root; vertex < num_vertices; vertex++){
+            if (dist[vertex] != __DBL_MAX__) {
+                sum_of_distances += dist[vertex];
+            }
+        }
+    }
+    double ans = (sum_of_distances / amount_of_distances);
+
+    return ans;
 }

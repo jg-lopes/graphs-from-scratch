@@ -12,12 +12,15 @@ class w_AdjList: public Graph {
         void addEdge(int from, int to, int num_vertices, double weight);
         void print();
         void Dijkstra(int root);
-        double Dijkstra_target(int root, int target);
-        void Prim(int root);
+        pair < double, vector <int> > Dijkstra_target(int root, int target);
+        double Prim(int root);
         double excentricity(int root);
+        double medium_distance();
+    protected:
+        vector < int > findPathFromParent (vector < int > parent, int target);
     private:
         vector < list < AdjList_Tuple > > adjlist;
-        vector < double > Dijkstra_core(int root);
+        pair < vector < double >, vector <int> > Dijkstra_core(int root);
 };
  
 #endif

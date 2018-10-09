@@ -19,6 +19,7 @@ class Graph {
     public:
         void outputSpanningTree(int* father, int* level);
         void outputGraphInfo();
+        int getNumVertices();
     protected:
         int num_vertices;
         int num_edges;

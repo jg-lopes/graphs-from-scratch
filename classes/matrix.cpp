@@ -1,6 +1,6 @@
 #include "matrix.h"
 
-Matrix::Matrix(string FileLocation, int directed){
+Matrix::Matrix(string FileLocation){
     ifstream GraphFile;
     GraphFile.open(FileLocation);
 
@@ -16,33 +16,16 @@ Matrix::Matrix(string FileLocation, int directed){
     // Lê as linhas subsequentes no formato from, to para adicionar arestas ao grafo
     int from, to;
     num_edges = 0;
-    if (directed) {
-        while (GraphFile >> from >> to) {
-        // Correção devido ao fato dos arquivos começarem com vértice 1
-            addEdgeDirected(from-1, to-1, num_vertices);
-        }
-    } else {
-        while (GraphFile >> from >> to) {
-        // Correção devido ao fato dos arquivos começarem com vértice 1
-            addEdgeUndirected(from-1, to-1, num_vertices);
-        }
+
+    while (GraphFile >> from >> to) {
+    // Correção devido ao fato dos arquivos começarem com vértice 1
+        addEdge(from-1, to-1, num_vertices);
     }
     
-
     GraphFile.close();
 }
- 
-void Matrix::addEdgeUndirected(int from, int to, int num_vertices){
-    // Insere um vértice na estrutura
 
-    if (to < num_vertices){
-        matrix[from][to] = 1;
-        matrix[to][from] = 1;
-        num_edges++;
-    }
-}
-
-void Matrix::addEdgeDirected(int from, int to, int num_vertices){
+void Matrix::addEdge(int from, int to, int num_vertices){
     // Insere um vértice na estrutura
 
     if (to < num_vertices){

@@ -3,9 +3,8 @@
 
 class Matrix: public Graph {
     public:
-        Matrix(string FileLocation, int directed);
-        void addEdgeDirected(int from, int to, int num_vertices);
-        void addEdgeUndirected(int from, int to, int num_vertices);
+        Matrix(string FileLocation);
+        void addEdge(int from, int to, int num_vertices);
         void BFS(int root);
         void DFS(int root);
         vector<float> degreeInfo(); 

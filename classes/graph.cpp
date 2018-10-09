@@ -71,3 +71,7 @@ void outputConnectedComponents(vector< vector<int> > verticesComponent){
         output << endl;
     }
 }
+
+int Graph::getNumVertices(){
+    return num_vertices;
+}
