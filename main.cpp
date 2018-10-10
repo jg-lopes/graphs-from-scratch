@@ -8,13 +8,18 @@
 */
 
 int main() {
-    //w_AdjList graph("./lul.txt");
-    //w_AdjList graph("./rede_colaboracao.txt");
-    //w_AdjList graph("./grafo_1.txt");
+    //w_Matrix graph("./rede_colaboracao.txt");
+    //w_Matrix graph("./grafo_1.txt");
+    //w_Matrix graph("./grafo_2.txt");
+    
+    //w_Matrix graph("./grafo_1.txt");
     //w_AdjList graph("./grafo_2.txt");
     //w_AdjList graph("./grafo_3.txt");
     //w_AdjList graph("./grafo_4.txt");
     //w_AdjList graph("./grafo_5.txt");
+
+    //w_AdjList graph("./rede_colaboracao.txt");
+
 
 
     // Template para medição de tempo de uma função (cuidado caso ela faça alguma chamada ao SO)
@@ -101,9 +106,9 @@ int main() {
     // // Gerando a MST
     // graph.Prim(1, true);
 
-    // Manipulando a MST
-    w_AdjList graph("./MST.txt");
-    graph.three_Max_Degrees();
-    graph.print_neighbours(2722);
-    graph.print_neighbours(343930);   
+    // // Manipulando a MST
+    // w_AdjList graph("./MST.txt");
+    // graph.three_Max_Degrees();
+    // graph.print_neighbours(2722);
+    // graph.print_neighbours(343930);   
 } 

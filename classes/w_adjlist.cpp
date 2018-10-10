@@ -1,8 +1,7 @@
 #include "w_adjlist.h"
 
 w_AdjList::w_AdjList(string FileLocation){
-    // Construtor para a lista de Adjacências a partir de um arquivo externo
-    // contendo o grafo
+    // Construtor para a lista de Adjacências a partir de um arquivo externo contendo o grafo
 
     ifstream GraphFile;
     GraphFile.open(FileLocation);
@@ -28,7 +27,7 @@ w_AdjList::w_AdjList(string FileLocation){
 
 
 void w_AdjList::addEdge(int from, int to, int num_vertices, double weight){
-    // Insere um vértice novo na estrutura de dados
+    // Insere uma aresta nova na estrutura de dados
 
     if (to < num_vertices){
         AdjList_Tuple adjacent;
@@ -130,6 +129,8 @@ vector < int > w_AdjList::findPathFromParent (vector < int > parent, int target)
     // Retorna vértice do caminho
     return path;
 }
+
+
 
 pair < double, vector <int> > w_AdjList::Dijkstra_target(int root, int target){
     // Implementação do algoritmo de Dijkstra para apenas um vértice
@@ -355,6 +356,8 @@ double w_AdjList::medium_distance(){
     return ans;
 }
 
+
+
 double w_AdjList::medium_distance_probabilistic(int iterations){
     // Retorna uma estimativa para a distância média calculando multiplas vezes a partir de vértices aleatórios
     // Iterations estabelece quantas medidas vão ser tomadas
@@ -386,8 +389,10 @@ double w_AdjList::medium_distance_probabilistic(int iterations){
 }
 
 
+
 int w_AdjList::vertexDegree(int vertex) {
     // Retorna o grau de um dado vértice
+    // Não corrige off by one, feito para ser chamado por função apenas
 
     int total = 0;
     
@@ -397,6 +402,8 @@ int w_AdjList::vertexDegree(int vertex) {
     }
     return total; 
 }
+
+
 
 vector<int> w_AdjList::three_Max_Degrees() {
     // Encontra os 3 maiores vértices
@@ -441,6 +448,8 @@ vector<int> w_AdjList::three_Max_Degrees() {
 
     return answer;
 }
+
+
 
 void w_AdjList::print_neighbours(int vertex){
     // Printa os vizinhos de um vértice
