@@ -11,6 +11,8 @@
 #include <algorithm>
 #include <set>
 #include <chrono>
+#include <thread>
+#include <random>
 
 
 using namespace std;
@@ -18,6 +20,7 @@ using namespace std;
 class Graph {
     public:
         void outputSpanningTree(int* father, int* level);
+        void outputMinimumSpanningTree(int* father, double* cost);
         void outputGraphInfo();
         int getNumVertices();
     protected:

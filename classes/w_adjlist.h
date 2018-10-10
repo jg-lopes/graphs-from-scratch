@@ -11,11 +11,15 @@ class w_AdjList: public Graph {
         w_AdjList(string FileLocation);
         void addEdge(int from, int to, int num_vertices, double weight);
         void print();
-        void Dijkstra(int root);
+        vector <double> Dijkstra(int root);
         pair < double, vector <int> > Dijkstra_target(int root, int target);
-        double Prim(int root);
+        double Prim(int root, bool output);
         double excentricity(int root);
         double medium_distance();
+        double medium_distance_probabilistic(int iterations);
+        int vertexDegree(int vertex);
+        vector<int> three_Max_Degrees();
+        void print_neighbours(int vertex);
     protected:
         vector < int > findPathFromParent (vector < int > parent, int target);
     private:

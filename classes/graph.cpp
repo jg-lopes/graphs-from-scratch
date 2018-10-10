@@ -11,6 +11,23 @@ void Graph::outputSpanningTree(int* father, int* level){
     output.close();
 }
 
+void Graph::outputMinimumSpanningTree(int* father, double* cost){
+    // Gera arquivo de saída com a MST
+    ofstream output;
+    output.open("MST.txt");
+
+    output << num_vertices << endl;
+    for (int i = 0; i < num_vertices; i++){
+        // Verifica se o vértice existe
+        if (father[i] != -1){
+            // Correção do erro de off by one
+            output << father[i]+1 << " " << i+1 << " " << cost[i] << endl;
+        }
+    }
+    
+    output.close();
+}
+
 void Graph::outputGraphInfo(){
     // Gerando arquivo de saída
     ofstream output;
