@@ -8,6 +8,45 @@
 */
 
 int main() {
+
+    Euclidian graph_5("./trabalho3/points-5.txt");
+    graph_5.nearestVertex_TSP(1);
+
+    Euclidian graph_10("./trabalho3/points-10.txt");
+    graph_10.nearestVertex_TSP(1);
+
+    Euclidian graph_20("./trabalho3/points-20.txt");
+    graph_20.nearestVertex_TSP(1);
+
+    // Euclidian graph("./trabalho3/points-50.txt");
+    // graph.nearestVertex_TSP(1);
+
+    // Euclidian graph("./trabalho3/points-100.txt");
+    // graph.nearestVertex_TSP(1);
+
+    // Euclidian graph("./trabalho3/points-200.txt");
+    // graph.nearestVertex_TSP(1);
+
+    // Euclidian graph("./trabalho3/points-500.txt");
+    // graph.nearestVertex_TSP(1);
+
+    // Euclidian graph("./trabalho3/points-1000.txt");
+    // graph.nearestVertex_TSP(1);
+
+    // Euclidian graph("./trabalho3/points-2000.txt");
+    // graph.nearestVertex_TSP(1);
+
+    // Euclidian graph("./trabalho3/points-5000.txt");
+    // graph.nearestVertex_TSP(1);
+
+    // Euclidian graph("./trabalho3/points-7500.txt");
+    // graph.nearestVertex_TSP(1);
+
+    // Euclidian graph("./trabalho3/points-10000.txt");
+    // graph.nearestVertex_TSP(1);
+
+
+
     //w_Matrix graph("./rede_colaboracao.txt");
     //w_Matrix graph("./grafo_1.txt");
     //w_Matrix graph("./grafo_2.txt");

@@ -13,6 +13,7 @@
 #include <chrono>
 #include <thread>
 #include <random>
+#include <math.h>
 
 
 using namespace std;
@@ -35,4 +36,5 @@ class Graph {
 #include "adjlist.cpp"
 #include "w_matrix.cpp"
 #include "w_adjlist.cpp"
+#include "euclidian.cpp"
 #endif
