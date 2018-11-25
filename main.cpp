@@ -18,32 +18,32 @@ int main() {
     Euclidian graph_20("./trabalho3/points-20.txt");
     graph_20.nearestVertex_TSP(1);
 
-    // Euclidian graph("./trabalho3/points-50.txt");
-    // graph.nearestVertex_TSP(1);
+    Euclidian graph_50("./trabalho3/points-50.txt");
+    graph_50.nearestVertex_TSP(1);
 
-    // Euclidian graph("./trabalho3/points-100.txt");
-    // graph.nearestVertex_TSP(1);
+    Euclidian graph_100("./trabalho3/points-100.txt");
+    graph_100.nearestVertex_TSP(1);
 
-    // Euclidian graph("./trabalho3/points-200.txt");
-    // graph.nearestVertex_TSP(1);
+    Euclidian graph_200("./trabalho3/points-200.txt");
+    graph_200.nearestVertex_TSP(1);
 
-    // Euclidian graph("./trabalho3/points-500.txt");
-    // graph.nearestVertex_TSP(1);
+    Euclidian graph_500("./trabalho3/points-500.txt");
+    graph_500.nearestVertex_TSP(1);
 
-    // Euclidian graph("./trabalho3/points-1000.txt");
-    // graph.nearestVertex_TSP(1);
+    Euclidian graph_1000("./trabalho3/points-1000.txt");
+    graph_1000.nearestVertex_TSP(1);
 
-    // Euclidian graph("./trabalho3/points-2000.txt");
-    // graph.nearestVertex_TSP(1);
+    Euclidian graph_2000("./trabalho3/points-2000.txt");
+    graph_2000.nearestVertex_TSP(1);
 
-    // Euclidian graph("./trabalho3/points-5000.txt");
-    // graph.nearestVertex_TSP(1);
+    Euclidian graph_5000("./trabalho3/points-5000.txt");
+    graph_5000.nearestVertex_TSP(1);
 
-    // Euclidian graph("./trabalho3/points-7500.txt");
-    // graph.nearestVertex_TSP(1);
+    Euclidian graph_7500("./trabalho3/points-7500.txt");
+    graph_7500.nearestVertex_TSP(1);
 
-    // Euclidian graph("./trabalho3/points-10000.txt");
-    // graph.nearestVertex_TSP(1);
+    Euclidian graph_10000("./trabalho3/points-10000.txt");
+    graph_10000.nearestVertex_TSP(1);
 
 
 
